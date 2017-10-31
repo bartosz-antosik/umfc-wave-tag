@@ -3,7 +3,6 @@
 .helpers
 .study
 .umfc
-.vscode
 .vs
 shell/lib
 shell/obj
