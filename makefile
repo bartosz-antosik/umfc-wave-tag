@@ -22,12 +22,14 @@ PYTHON=/bin/python35/python
 # public targets
 #------------------------------------------------------------------------------
 
-default: clean initialize test finalize
+default: clean initialize wav2time-test time2csv-test finalize
 
 initialize:
 
-test:
-	python wav2time.py ./data/efekty-11_24_1033.wav
+wav2time-test:
+	python wav2time.py data/efekty-11_24_1033.wav
+
+time2csv-test:
 
 finalize:
 
