@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+  <version-info>
+    <project-version value="1.0.0.42"/>
+    <build-date value="20171031T124040"/>
+    <build-hash value="0"/>
+  </version-info>
+  <project-info>
+    <project-name value="w2tshell"/>
+    <project-description value="Shell application for wav2time scripts."/>
+    <project-acronym value="w2tshell"/>
+    <company-name value="necne"/>
+    <language value="EN"/>
+    <legal-copyright value="Copyright (c) 2003-[build-date:yyyy] [company-name]"/>
+    <file-version-string value="[project-version:1.2.3] release [project-version:4] ([build-date:dd mmmm yyyy])"/>
+    <product-version-string value="[project-version:1.2.3] release [project-version:4] ([build-date:dd mmmm yyyy])"/>
+  </project-info>
+</config>

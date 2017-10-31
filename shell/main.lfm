@@ -1,0 +1,91 @@
+object Form1: TForm1
+  Left = 13
+  Height = 420
+  Top = 161
+  Width = 768
+  Caption = 'Form1'
+  ClientHeight = 420
+  ClientWidth = 768
+  Constraints.MinHeight = 420
+  Constraints.MinWidth = 768
+  OnClose = FormClose
+  OnCreate = FormCreate
+  LCLVersion = '1.6.4.0'
+  Visible = False
+  object ebFXsFileName: TFileNameEdit
+    Left = 8
+    Height = 23
+    Top = 31
+    Width = 750
+    OnAcceptFileName = ebFXsFileNameAcceptFileName
+    FilterIndex = 0
+    HideDirectories = False
+    ButtonWidth = 23
+    NumGlyphs = 1
+    MaxLength = 0
+    TabOrder = 0
+  end
+  object btnConvertWAVtoTAGs: TButton
+    Left = 670
+    Height = 24
+    Top = 64
+    Width = 88
+    Caption = '&Convert'
+    OnClick = btnConvertWAVtoTAGsClick
+    TabOrder = 1
+  end
+  object Label1: TLabel
+    Left = 8
+    Height = 15
+    Top = 8
+    Width = 241
+    Caption = '1. WAV to TAGs (F/X prompts WAV file name):'
+    ParentColor = False
+  end
+  object meConversionLog: TMemo
+    Left = 8
+    Height = 205
+    Top = 200
+    Width = 750
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    TabOrder = 2
+  end
+  object Label2: TLabel
+    Left = 8
+    Height = 15
+    Top = 176
+    Width = 83
+    Caption = 'Conversion log:'
+    ParentColor = False
+  end
+  object Label3: TLabel
+    Left = 8
+    Height = 15
+    Top = 80
+    Width = 235
+    Caption = '2. TAGs to CSV (show output tags file name):'
+    ParentColor = False
+  end
+  object ebTAGsFileName: TFileNameEdit
+    Left = 8
+    Height = 23
+    Top = 103
+    Width = 750
+    OnAcceptFileName = ebTAGsFileNameAcceptFileName
+    FilterIndex = 0
+    HideDirectories = False
+    ButtonWidth = 23
+    NumGlyphs = 1
+    MaxLength = 0
+    TabOrder = 3
+  end
+  object btnConvertTAGstoCSV: TButton
+    Left = 670
+    Height = 24
+    Top = 136
+    Width = 88
+    Caption = '&Convert'
+    OnClick = btnConvertTAGstoCSVClick
+    TabOrder = 4
+  end
+end
