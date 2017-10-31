@@ -88,8 +88,12 @@ def process(fxs_file, survey_file, tags_file):
     p_silence = True
     beg = 0
     last = 0
+    progress = 0
 
     ch_fxs.rewind()
+
+    print('Tagging F/X prompt file: 0%', end='')
+
     for s in range(ch_fxs.getnframes() // SILENCE_WINDOW_FXS):
         pos = ch_fxs.tell()
 
@@ -107,9 +111,18 @@ def process(fxs_file, survey_file, tags_file):
                     tags_fxs.append((beg, pos))
                 p_silence = True
 
+        _progress = int((101 * pos) / ch_fxs.getnframes())
+        if (_progress % 10 == 0) and (_progress != progress):
+            print('...{}%'.format(_progress), end='')
+            progress = _progress
+
+    print('')
+
     # -------------------------------------------------------------------------
     # Silence/Signal detection in RESPONSES
     # -------------------------------------------------------------------------
+
+    print('Tagging survey file: 0%', end='')
 
     tags_survey = []
     p_silence = True
@@ -117,6 +130,7 @@ def process(fxs_file, survey_file, tags_file):
     beg = 0
     last = 0
     lfrm = bytes()
+    progress = 0
 
     ch_survey.rewind()
     for s in range(ch_survey.getnframes() // SILENCE_WINDOW_SRV):
@@ -168,6 +182,13 @@ def process(fxs_file, survey_file, tags_file):
             ch_chunk.writeframes(frm)
 
         lfrm = frm
+
+        _progress = int((101 * pos) / ch_fxs.getnframes())
+        if (_progress % 10 == 0) and (_progress != progress):
+            print('...{}%'.format(_progress), end='')
+            progress = _progress
+
+    print('')
 
     ch_chunk.close()
     os.remove('chunk.wav')
