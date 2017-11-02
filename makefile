@@ -28,10 +28,9 @@ initialize:
 
 wav2time:
 	python wav2time.py data/efekty-11_24_1033.wav
-	python wav2time.py data/efekty-10_30_1438.wav
 
 edit:
-	pax -rws'/in/out/' data/etykiety-in-11_24_1033.txt .
+	# pax -rws'/in/out/' data/etykiety-in-11_24_1033.txt .
 
 time2csv:
 	python time2csv.py data/etykiety-out-11_24_1033.txt
