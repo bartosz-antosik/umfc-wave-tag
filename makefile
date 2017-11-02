@@ -39,6 +39,4 @@ time2csv:
 finalize:
 
 clean:
-	# -rm -f data/etykiety-*.txt 2> /dev/null
-	# -rm -f data/etykiety-*.csv 2> /dev/null
 	-rm -f data/*norm.wav 2> /dev/null
