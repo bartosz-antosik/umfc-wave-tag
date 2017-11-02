@@ -1,6 +1,6 @@
-0.882358	2.414875	prompt #1: 
-8.498503	10.077460	prompt #2: 
-17.554286	19.226122	prompt #3: 
-1.578957	6.315828	answer #1: telefon
-8.916463	10.309660	answer #2: gwizdek
-18.761723	21.455238	answer #3: chodzenie
+0.875011	2.746757	prompt #1: 
+8.503673	10.378413	prompt #2: 
+17.558095	19.543583	prompt #3: 
+1.594376	2.418503	answer #1: telefon
+9.060408	10.009252	answer #2: gwizdek
+18.804263	19.800000	answer #3: chodzenie
