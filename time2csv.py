@@ -1,13 +1,13 @@
 #!/usr/bin/python
 
-__author__ = 'ban'
-__date__ = '2017-01-05 15:55:00'
-__version__ = '0.1'
-
 # -----------------------------------------------------------------------------
 # Copyright (c) 2016-2017 Bartosz Antosik (ban) for the research carried
 # On Frideric Chopin University of Music in Warsaw, POLAND
 # -----------------------------------------------------------------------------
+
+__author__ = 'ban'
+__date__ = '2017-11-02 15:55:00'
+__version__ = '1.0'
 
 # -----------------------------------------------------------------------------
 # Sample tags-out file format:
@@ -36,7 +36,6 @@ __version__ = '0.1'
 
 import sys
 import ntpath
-import re
 
 from collections import OrderedDict
 
