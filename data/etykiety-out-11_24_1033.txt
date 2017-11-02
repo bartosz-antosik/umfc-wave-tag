@@ -1,0 +1,6 @@
+0.875011	2.746757	prompt #1: telefon
+1.594376	2.418503	answer #1: telefon
+8.503673	10.378413	prompt #2: gwizdek
+9.060408	10.009252	answer #2: gwizdek
+17.558095	19.543583	prompt #3: kroki
+18.804263	19.800000	answer #3: kroki

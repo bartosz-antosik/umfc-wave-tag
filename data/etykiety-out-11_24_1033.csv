@@ -1,0 +1,4 @@
+﻿Id [#];Delay [ms];Prompt [txt];Answer [txt];Match [bool];Notes [txt]
+#1;719;telefon;telefon;YES;
+#2;556;gwizdek;gwizdek;YES;
+#3;1246;kroki;kroki;YES;
