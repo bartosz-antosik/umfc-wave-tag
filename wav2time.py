@@ -1,13 +1,13 @@
 #!/usr/bin/python
 
-__author__ = 'ban'
-__date__ = '2016-12-18 13:01:00'
-__version__ = '0.5'
-
 # -----------------------------------------------------------------------------
 # Copyright (c) 2016-2017 Bartosz Antosik (ban) for the research carried
 # On Frideric Chopin University of Music in Warsaw, POLAND
 # -----------------------------------------------------------------------------
+
+__author__ = 'ban'
+__date__ = '2017-10-02 11:14:00'
+__version__ = '1.0'
 
 import sys
 import wave
@@ -18,17 +18,19 @@ import subprocess
 
 import speech_recognition
 
-SILENCE_WINDOW_FXS = 2048
-SILENCE_TRESHOLD_FXS = 64  # 0..32767
-SILENCE_TRAIL_FXS = 8192
+SILENCE_WINDOW_FXS = 1024
+SILENCE_TRESHOLD_FXS = 32  # 0..32767
+SILENCE_TRAIL_FXS = 22050
 
 SILENCE_WINDOW_SRV = 4096
 SILENCE_TRESHOLD_SRV = 256
 SILENCE_SUSTAIN_SRV = 4096
-SILENCE_TRAIL_SRV = 22050
+SILENCE_TRAIL_SRV = 11025
 
 SAMPLE_ABS_MAX = 32767
 SAMPLE_ABS_NUL = 0
+
+DETECTION_STEP = 44 # About 1ms resolution
 
 RECOGNIZE_SPEECH = True
 
@@ -61,25 +63,6 @@ def process(fxs_file, survey_file, tags_file):
     ch_survey = wave.open(survey_file, mode='rb')
     tags = open(tags_file, 'w', encoding='utf-8')
 
-#    print(ch_survey.getnframes())
-#    print(ch_survey.getsampwidth())
-
-#    ch_survey.rewind()
-#    print(audioop.avgpp(ch_survey.readframes(ch_survey.getnframes()), ch_survey.getsampwidth()))
-
-#    ch_survey.rewind()
-#    print(audioop.max(ch_survey.readframes(ch_survey.getnframes()), ch_survey.getsampwidth()))
-
-#    sh_silence_raw = []
-#    sh_audio_raw = []
-
-#    for i in range(0, SILENCE_WINDOW_FXS):
-#        sh_silence_raw.append(struct.pack('h', SAMPLE_ABS_NUL))
-#        sh_audio_raw.append(struct.pack('h', SAMPLE_ABS_MAX))
-
-#    sh_silence_str = b''.join(sh_silence_raw)
-#    sh_audio_str = b''.join(sh_audio_raw)
-
     # -------------------------------------------------------------------------
     # Silence/Signal detection in FXs
     # -------------------------------------------------------------------------
@@ -88,16 +71,19 @@ def process(fxs_file, survey_file, tags_file):
     p_silence = True
     beg = 0
     last = 0
-    progress = 0
+
+    print('Tagging F/X prompts WAV')
 
     ch_fxs.rewind()
 
-    print('Tagging F/X prompt file: 0%', end='')
+    buffer = ch_fxs.readframes(ch_fxs.getnframes())
 
-    for s in range(ch_fxs.getnframes() // SILENCE_WINDOW_FXS):
-        pos = ch_fxs.tell()
+    for pos in range(0, ch_fxs.getnframes() - SILENCE_WINDOW_FXS, DETECTION_STEP):
 
-        rms = audioop.rms(ch_fxs.readframes(SILENCE_WINDOW_FXS), 2)
+        bfrom = pos * ch_fxs.getsampwidth()
+        bto = (pos + SILENCE_WINDOW_FXS) * ch_fxs.getsampwidth()
+
+        rms = audioop.rms(buffer[bfrom:bto], 2)
 
         if rms > SILENCE_TRESHOLD_FXS:
             if p_silence:
@@ -108,46 +94,38 @@ def process(fxs_file, survey_file, tags_file):
             # ensure some hysteresis
             if pos > last + SILENCE_TRAIL_FXS:
                 if not p_silence:
+                    print('{}\t{}'.format(beg, pos))
                     tags_fxs.append((beg, pos))
                 p_silence = True
-
-        _progress = int((101 * pos) / ch_fxs.getnframes())
-        if (_progress % 10 == 0) and (_progress != progress):
-            print('...{}%'.format(_progress), end='')
-            progress = _progress
-
-    print('')
 
     # -------------------------------------------------------------------------
     # Silence/Signal detection in RESPONSES
     # -------------------------------------------------------------------------
-
-    print('Tagging survey file: 0%', end='')
 
     tags_survey = []
     p_silence = True
     p_long = False
     beg = 0
     last = 0
-    lfrm = bytes()
-    progress = 0
+
+    print('Tagging survey responses WAV')
 
     ch_survey.rewind()
-    for s in range(ch_survey.getnframes() // SILENCE_WINDOW_SRV):
-        pos = ch_survey.tell()
 
-        frm = ch_survey.readframes(SILENCE_WINDOW_SRV)
-        rms = audioop.rms(frm, 2)
+    buffer = ch_survey.readframes(ch_survey.getnframes())
+
+    for pos in range(0, ch_survey.getnframes() - SILENCE_WINDOW_SRV, DETECTION_STEP):
+
+        bfrom = pos * ch_survey.getsampwidth()
+        bto = (pos + SILENCE_WINDOW_FXS) * ch_survey.getsampwidth()
+
+        rms = audioop.rms(buffer[bfrom:bto], 2)
 
         if rms > SILENCE_TRESHOLD_SRV:
             # begin audio chunk
             if p_silence:
                 p_long = False
                 beg = pos
-                ch_chunk = wave.open('chunk.wav', mode='wb')
-                ch_chunk.setparams(ch_survey.getparams())
-
-                ch_chunk.writeframes(lfrm)
 
             p_silence = False
             last = pos
@@ -160,38 +138,33 @@ def process(fxs_file, survey_file, tags_file):
                 if pos > last + SILENCE_TRAIL_SRV:
                     # end audio chunk
                     if not p_silence:
-                        ch_chunk.close()
-
                         # skip those before first prompt
                         if pos > tags_fxs[0][0]:
                             if RECOGNIZE_SPEECH:
+                                ch_chunk = wave.open('chunk.wav', mode='wb')
+                                ch_chunk.setparams(ch_survey.getparams())
+
+                                ch_survey.setpos(beg)
+
+                                frm = ch_survey.readframes(
+                                    pos + SILENCE_WINDOW_SRV - beg)
+
+                                ch_chunk.writeframes(frm)
+                                ch_chunk.close()
+
                                 srt = trySpeechRecognize('chunk.wav')
                                 if srt:
                                     tags_survey.append((beg, pos, srt))
+
+                                os.remove('chunk.wav')
                             else:
                                 tags_survey.append((beg, pos, ''))
 
+                            print('{}\t{}\t{}'.format(beg, pos, srt))
+
                     p_silence = True
             else:
-                if not p_silence:
-                    ch_chunk.close()
-
                 p_silence = True
-
-        if not p_silence:
-            ch_chunk.writeframes(frm)
-
-        lfrm = frm
-
-        _progress = int((101 * pos) / ch_fxs.getnframes())
-        if (_progress % 10 == 0) and (_progress != progress):
-            print('...{}%'.format(_progress), end='')
-            progress = _progress
-
-    print('')
-
-    ch_chunk.close()
-    os.remove('chunk.wav')
 
     for i, p in enumerate(tags_fxs):
         pb, pe = sampToSecs(p[0], p[1], ch_fxs.getframerate())
@@ -246,7 +219,7 @@ if __name__ == '__main__':
     print('Normalizing WAVs')
 
     sProc = subprocess.Popen('sox "' + fx_file_name +
-        '" -t wavpcm -b 16 -c 1 --norm "' + fx_file_name_norm + '"',
+        '" -t wavpcm -b 16 -c 1 --norm "' + fx_file_name_norm + '" sinc -16k compand 0.3,1 -60',
         shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     retval = sProc.wait()
 
@@ -255,9 +228,7 @@ if __name__ == '__main__':
         shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     retval = sProc.wait()
 
-    print('Tagging WAVs')
-
     process(fx_file_name_norm, srv_file_name_norm, tags_file_name)
 
-#  os.remove(fx_file_name_norm)
-#  os.remove(srv_file_name_norm)
+    # os.remove(fx_file_name_norm)
+    # os.remove(srv_file_name_norm)
