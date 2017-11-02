@@ -1,9 +1,11 @@
 .backup
 .data
 .helpers
+.papers
 .study
 .umfc
 .vs
+.vscode/tags
 shell/lib
 shell/obj
 shell/backup
