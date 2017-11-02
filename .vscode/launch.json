@@ -25,7 +25,9 @@
             "stopOnEntry": false,
             "pythonPath": "${config:python.pythonPath}",
             "program": "${workspaceRoot}/time2csv.py",
-            "args": [],
+            "args": [
+                "data/etykiety-out-11_24_1033.txt"
+            ],
             "cwd": "${workspaceRoot}",
             "debugOptions": [
                 "WaitOnAbnormalExit",
