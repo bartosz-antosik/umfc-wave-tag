@@ -14,13 +14,13 @@ Each file has to be listened by auditor and appropriate tags have to be placed a
 
 Process both **prompts** & **responses** audio files with software to identify as much information as possible.
 
-## wav2time.py
+## Tagging script (wav2time.py)
 
 ### Information
 
 The script does three things: traces prompts audio file & inserts tags to mark prompt's occurrence, traces responses audio file & tags all answers, does speech recognition to eliminate non-valid answers in the survey recording.
 
-**Requirements:** python 3.5+, [sox](http://sox.sourceforge.net/sox.html) binary, python libraries: [wave](https://docs.python.org/3/library/wave.html), [audioop](https://docs.python.org/2/library/audioop.html) and [SpeechRecognition](https://pypi.python.org/pypi/SpeechRecognition/).
+**Requirements:** python 3.5+, [sox](http://sox.sourceforge.net/sox.html) binary in path, python libraries: [wave](https://docs.python.org/3/library/wave.html), [audioop](https://docs.python.org/2/library/audioop.html) and [SpeechRecognition](https://pypi.python.org/pypi/SpeechRecognition/).
 
 ### Usage
 
@@ -51,7 +51,7 @@ data/etykiety-in-11_24_1033.txt
 
 The file is [Audacity](http://www.audacityteam.org/) acceptable labels format.
 
-## time2csv.py
+## Results calculation script (time2csv.py)
 
 The script takes the output of the middle stage of the workflow, reviewed tags from Audacity and calculates delay between appropriate prompts and answers & outputs it in the form of CSV table.
 
@@ -84,7 +84,7 @@ Id [#];Delay [ms];Prompt [txt];Answer [txt];Match [bool];Notes [txt]
 
 ## Workflow
 
-### 1. Run tagging script (wav2time)
+### 1. Run tagging script
 
 ```bash
 python wav2time.py data/efekty-11_24_1033.wav
@@ -100,7 +100,7 @@ Adjust tags placement (rarely required) and prompt/answer codes.
 
 Export audited labels to a text file.
 
-### 3. Run script that calculates results (time2csv)
+### 3. Run results calculation script
 
 ```bash
 python time2csv.py data/etykiety-out-11_24_1033.txt
@@ -110,8 +110,8 @@ The result is a CSV file ready for opening in other software and analysis.
 
 ## Savings
 
-In practical tests scripts save over 50% of time required to produce the labels suitable for calculating the required delays. The whole fun is the step which does audio recognition as it could potentially automate the process nearly in full once the log of emissions is available.
+In practical tests scripts save over 50% of time required to produce the labels suitable for calculating the required delays. The whole fun is the step which does speech recognition as it could potentially automate the process nearly in full once the emission log is available.
 
 ## Possible Improvements
 
-Accurate log of prompts' emissions could automate nearly everything. Simple lookup-table of responses ("kroki": "chodzenie", "obcasy", ...) could allow the system to skip prompts' identification workflow step and match responses to prompts reliably without any human intervention.
+Accurate log of prompts' emissions could automate nearly everything. Simple look-up table of responses ("kroki": "chodzenie", "obcasy", ...) could allow the system to skip prompts' identification workflow step and match responses to prompts reliably without any human intervention.
