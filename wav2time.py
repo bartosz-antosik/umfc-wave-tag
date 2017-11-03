@@ -18,14 +18,14 @@ import subprocess
 
 import speech_recognition
 
-SILENCE_WINDOW_FXS = 1024
-SILENCE_TRESHOLD_FXS = 32  # 0..32767
-SILENCE_TRAIL_FXS = 22050
+SILENCE_WINDOW_FXS = 1024   # Frames
+SILENCE_TRESHOLD_FXS = 24   # RMS
+SILENCE_TRAIL_FXS = 22050   # Frames
 
-SILENCE_WINDOW_SRV = 4096
-SILENCE_TRESHOLD_SRV = 256
-SILENCE_SUSTAIN_SRV = 4096
-SILENCE_TRAIL_SRV = 11025
+SILENCE_WINDOW_SRV = 4096   # Frames
+SILENCE_TRESHOLD_SRV = 256  # RMS
+SILENCE_SUSTAIN_SRV = 4096  # Frames
+SILENCE_TRAIL_SRV = 11025   # Frames
 
 SAMPLE_ABS_MAX = 32767
 SAMPLE_ABS_NUL = 0
@@ -94,7 +94,7 @@ def process(fxs_file, survey_file, tags_file):
             # ensure some hysteresis
             if pos > last + SILENCE_TRAIL_FXS:
                 if not p_silence:
-                    print('{}\t{}'.format(beg, pos))
+                    print('{} {}'.format(beg, pos))
                     tags_fxs.append((beg, pos))
                 p_silence = True
 
@@ -160,7 +160,7 @@ def process(fxs_file, survey_file, tags_file):
                             else:
                                 tags_survey.append((beg, pos, ''))
 
-                            print('{}\t{}\t{}'.format(beg, pos, srt))
+                            print('{} {} {}'.format(beg, pos, srt))
 
                     p_silence = True
             else:
@@ -219,8 +219,9 @@ if __name__ == '__main__':
     print('Normalizing WAVs')
 
     sProc = subprocess.Popen('sox "' + fx_file_name +
-        '" -t wavpcm -b 16 -c 1 --norm "' + fx_file_name_norm + '" sinc -16k compand 0.3,1 -60',
-        shell=False, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        '" -t wavpcm -b 16 -c 1 --norm "' + fx_file_name_norm +
+        '" sinc -16k compand .1,.1 -60', shell=False,
+        stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     retval = sProc.wait()
 
     sProc = subprocess.Popen('sox "' + srv_file_name +
