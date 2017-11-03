@@ -114,4 +114,4 @@ In practical tests scripts save over 50% of time required to produce the labels 
 
 ## Possible Improvements
 
-Accurate log of prompts' emissions could automate nearly everything. Simple look-up table of responses ("kroki": "chodzenie", "obcasy", ...) could allow the system to skip prompts' identification workflow step and match responses to prompts reliably without any human intervention.
+Accurate log of prompts' emissions could automate nearly everything. Most of the time in the workflow outlined above is consumed on entering names of the effects. Simple look-up table of responses ("kroki": "chodzenie", "obcasy", ...) could allow the system to skip prompts' identification workflow step and match responses to prompts reliably without any human intervention.
