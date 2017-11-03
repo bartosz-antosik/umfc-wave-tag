@@ -1,6 +1,6 @@
 # Support Scripts for the Speed of Recognition of Environmental Sound Sources study
 
-These scripts serve as a support for an experimental study carried out on **Fryderyk Chopin University of Music**. The objective of the study was to measure listener’s reaction time in the recognition of the sources of environmental sounds embedded in various acoustic sceneries. The secondary objective of the study was to determine whether people with musical education background recognize the sounds faster than non-musicians and whether the sound recognition reaction time is influenced by the congruency of the sound and the scenery in which the sound is presented.
+Scripts to support experimental study carried out in [The Department of Sound Engineering](http://www.chopin.edu.pl/en/departments-of-the-university/sound-engineering/) of [Fryderyk Chopin University of Music](http://www.chopin.edu.pl/). The objective of the study was to measure listener’s reaction time in the recognition of the sources of environmental sounds embedded in various acoustic sceneries. The secondary objective of the study was to determine whether people with musical (hearing training) education background recognize the sounds faster than non-musicians and whether the sound recognition reaction time is influenced by the congruency of the sound and the scenery in which the sound is presented.
 
 ## Input & the goal
 
