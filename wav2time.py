@@ -19,7 +19,7 @@ import subprocess
 import speech_recognition
 
 SILENCE_WINDOW_FXS = 1024   # Frames
-SILENCE_TRESHOLD_FXS = 24   # RMS
+SILENCE_TRESHOLD_FXS = 32   # RMS
 SILENCE_TRAIL_FXS = 22050   # Frames
 
 SILENCE_WINDOW_SRV = 4096   # Frames
