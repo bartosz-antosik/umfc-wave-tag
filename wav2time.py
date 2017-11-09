@@ -218,7 +218,7 @@ if __name__ == '__main__':
 
     print('Normalizing WAVs')
 
-    sProc = subprocess.Popen('sox "' + fx_file_name +
+    sProc = subprocess.Popen('sox -D "' + fx_file_name +
         '" -t wavpcm -b 16 -c 1 --norm "' + fx_file_name_norm +
         '" sinc -16k compand .1,.1 -60', shell=False,
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
