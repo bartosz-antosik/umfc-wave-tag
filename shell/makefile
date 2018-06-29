@@ -34,11 +34,11 @@ PATH_EXE=$(PATH_LPR)
 %.exe %.dll: %.res .FORCE
 	$(FCC) $(FCCFLAGS) $*.lpr
 
-%.rc2: %.rc $(VERSIONFILE)
-	$(VERSIONTOOL) substitute $(VERSIONFILE) -len $*.rc $*.rc2
+%.rc: %.rt $(VERSIONFILE)
+	$(VERSIONTOOL) substitute $(VERSIONFILE) -len $*.rt $*.rc
 
-%.res: %.rc2
-	$(RCC) $(BRCCFLAGS) $*.rc2 $*.res
+%.res: %.rc
+	$(RCC) $(BRCCFLAGS) $*.rc $*.res
 
 .PHONY: .FORCE
 
